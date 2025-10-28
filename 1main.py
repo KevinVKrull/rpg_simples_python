@@ -3,6 +3,7 @@ import time
 import random
 import acoes
 import boss
+import boss_voltar_magias
 
 vida_jogador = 120
 mana_jogador = 100
@@ -68,6 +69,8 @@ while True:
 
     # ---------- VOLTAR NO TEMPO ----------
     if escolha == '3':
+        mana_jogador, vida_jogador, vida_boss, ataques_boss_repetir, ataques_boss, historico = acoes.ressurgir_temporal(mana_jogador, vida_jogador, vida_boss, ataques_boss_repetir, ataques_boss, historico)
+        '''
         if mana_jogador < 40:
             print(f'Essa magia custa 40 de mana, voce tem apenas {mana_jogador} no momento.')
             time.sleep(2)
@@ -91,12 +94,12 @@ while True:
             ataques_boss_repetir = ataques_boss[-2:]
             ataques_boss = ataques_boss[:-2]
             historico = historico[:-2]
-
-            turno -= 2
-            time.sleep(2)
-            apagar()
-            continue
-
+        '''
+        turno -= 2
+        time.sleep(2)
+        apagar()
+        continue
+        
 
     # ---------- DEFESA ----------
     if escolha == '4':
@@ -118,38 +121,16 @@ while True:
     print(f'Chance roletada: {chance_lorde}')
     print('')
     
-
+    # ---------- REPETIR MAGIAS BOSS---------- 
     if len(ataques_boss_repetir) > 0:
-        ataque = ataques_boss_repetir.pop(0)
-        print(ataque)
-        print(ataques_boss_repetir)
-        if ataque['tipo'] == 'soco':
-            if defesa:
-                vida_jogador -= int(ataque['dano_lorde'] / 2)
-                print('Lorde Sombriu: usou 👊  Soco Sombrio 👊')
-                print(f'🛡️  Defesa Ativada!, voce recebeu {ataque['dano_lorde'] / 2} de dano')
-                defesa = False
-            else:
-                vida_jogador -= ataque['dano_lorde']
-                print(f'Lorde Sombriu: usou 👊  Soco Sombrio 👊 causando {ataque['dano_lorde']} de dano')
-
-        elif ataque['tipo'] == 'explosao':
-            if defesa:
-                print('Lorde Sombrio: usou ☄️  EXPLOSÃAAAAO DO CAAAAOS ☄️')
-                ataque['dano_lorde'] = int((vida_jogador / 2) / 2)
-                print(f'🛡️  Defesa Ativada!, voce recebeu {ataque['dano_lorde']} de dano')
-                vida_jogador -= ataque['dano_lorde']
-                defesa = False
-            else:
-                print('Lorde Sombrio: usou ☄️  EXPLOSÃAAAAO DO CAAAAOS ☄️')
-                print(f'Voce recebeu {ataque['dano_lorde']} de dano')
-                vida_jogador -= ataque['dano_lorde']
+        ataques_boss_repetir, vida_jogador, defesa = boss_voltar_magias.boss_voltar_magias(ataques_boss_repetir,vida_jogador,defesa)
+        
     else:
-        # ---------- EXPLOSAO ----------
+        # ---------- EXPLOSAO BOSS----------
         if chance_lorde < chance_atual_lorde:
             vida_jogador, explosao, defesa, dano_lorde, chance_atual_lorde, tipo = boss.magias_boss(vida_jogador,defesa,chance_lorde,chance_atual_lorde)
 
-        # ---------- SOCO SIMPLES ----------        
+        # ---------- SOCO SIMPLES BOSS----------        
         else:
             vida_jogador, explosao, defesa,dano_lorde,chance_atual_lorde,tipo = boss.magias_boss(vida_jogador, defesa,chance_lorde, chance_atual_lorde)
         

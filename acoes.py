@@ -1,4 +1,12 @@
 import random
+import os
+import time
+
+def apagar():
+    if os.name == 'nt':  
+        os.system('cls')
+    else: 
+        os.system('clear')
 
 def escolha_acao():
     print('--------------- OPÇOES ---------------')
@@ -46,3 +54,26 @@ def usar_pocao_mana(mana_atual):
     nova_mana = min(mana_atual + mana, 100)
     print(f'Mago do Tempo: recuperou 💧  {nova_mana - mana_atual} de mana!')
     return nova_mana
+
+def ressurgir_temporal(mana_jogador, vida_jogador, vida_boss, ataques_boss_repetir, ataques_boss, historico):
+    if mana_jogador < 40:
+        print(f'Essa magia custa 40 de mana, voce tem apenas {mana_jogador} no momento.')
+        time.sleep(2)
+        apagar()
+    if len(historico) < 3:
+        print('Voce precisa de pelo menos 2 turnos a mais para usar essa magia!')
+        time.sleep(2)
+        apagar()
+    if mana_jogador >= 40:
+        mana_jogador -= 40
+        reversao_tempo = historico[-3]
+
+        vida_jogador = reversao_tempo['vida_jogador']
+        mana_jogador = reversao_tempo['mana_jogador']
+        vida_boss = reversao_tempo['vida_boss']
+        print('🔁  Mago do Tempo usou ressurgir')
+
+        ataques_boss_repetir = ataques_boss[-2:]
+        ataques_boss = ataques_boss[:-2]
+        historico = historico[:-2]
+    return mana_jogador, vida_jogador, vida_boss, ataques_boss_repetir, ataques_boss, historico
