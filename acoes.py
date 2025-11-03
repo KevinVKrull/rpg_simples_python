@@ -20,60 +20,52 @@ def escolha_acao():
     print('6 -🔮 Poção de Mana: (restaura de 25-35 de mana)')
     print('')
 
-def rajada_temporal(mana_atual, vida_boss):
-    if mana_atual >= 5:
-        dano_mago = random.randint(10, 15)
-        mana_atual -= 5
-        vida_boss = vida_boss - dano_mago
-        print(f'Mago do Tempo: usou sua RAJADAAA TEMPORALES causando ⚔️  {dano_mago} de Dano no Lorde Sombrio.')
-        return mana_atual, vida_boss, True
-    elif mana_atual < 5:
-        print(f'Essa magia custa 💧 5 de mana! Mana atual {mana_atual}, Tenta Novamente! ')
-        return mana_atual, vida_boss, False
+def texto():
+    apagar()
+    print('Após a derrota do Lorde Sombrio, Mago do Tempo descobre uma verdade perturbadora: ele era apenas um dos Cinco Lordes das Trevas. \n' \
+    'No horizonte, uma torre mística emerge das sombras. \n' \
+    'Seus cinco andares guardam segredos, perigos e tesouros. No topo, o próximo lorde o aguarda.')
+    print('')
+    print('-> Sua missão: escalar a Torre Sombria, sobreviver aos desafios de cada andar e derrotar o Senhor das Chamas no topo.') 
 
-def fenda_do_tempo(mana_atual, vida_boss):
-    if mana_atual >= 15:
-        dano_mago = random.randint(20, 30)
-        mana_atual -= 15
-        print(f'Mago do Tempo: usou sua Fenda do Tempo causando ⚔️  {dano_mago} de Dano no Lorde Sombrio.')
-        vida_boss = vida_boss - dano_mago
-        return mana_atual, vida_boss, True
-    elif mana_atual < 15:   
-        print(f'Essa magia custa 💧 15 de mana! Mana atual {mana_atual}, Tenta Novamente! ')
-        return mana_atual, vida_boss, False
-    
+#-------------------- Texto continuar a torre --------------------
+def continuar_para_torre1(andar):
+    while True:
+        continuar = input('Deseja Continuar para Torre 1? [S/N]: ').lower()
 
-def usar_pocao_vida(vida_atual):
-    cura = random.randint(20, 30)
-    nova_vida = min(vida_atual + cura, 120)
-    print(f'Mago do Tempo: recuperou ❤️  {nova_vida - vida_atual} de vida!')
-    return nova_vida
+        if continuar == 's':
+            andar += 1
+            apagar()
+            break
+        else:
+            andar = 0
+            apagar()
+            break
+    return andar
 
-def usar_pocao_mana(mana_atual):
-    mana = random.randint(25, 35)
-    nova_mana = min(mana_atual + mana, 100)
-    print(f'Mago do Tempo: recuperou 💧  {nova_mana - mana_atual} de mana!')
-    return nova_mana
+#--------------------- GERADOR DE MAPA --------------------
+def gerar_mapa():
+    possiveis_salas = ['Combate','Tesouro','Mercador','Descanso','Evento']
+    mapa = []
 
-def ressurgir_temporal(mana_jogador, vida_jogador, vida_boss, ataques_boss_repetir, ataques_boss, historico):
-    if mana_jogador < 40:
-        print(f'Essa magia custa 40 de mana, voce tem apenas {mana_jogador} no momento.')
-        time.sleep(2)
-        apagar()
-    if len(historico) < 3:
-        print('Voce precisa de pelo menos 2 turnos a mais para usar essa magia!')
-        time.sleep(2)
-        apagar()
-    if mana_jogador >= 40:
-        mana_jogador -= 40
-        reversao_tempo = historico[-3]
+    for l in range(3):
+        lista = []
+        for c in range(3):
+            if l == 0 and c == 0:
+                lista.append('Inicio')
+            elif l == 2 and c == 2:
+                lista.append('Escadas')
+            else:
+                lista.append(random.choice(possiveis_salas))
+        mapa.append(lista)
+    return mapa
 
-        vida_jogador = reversao_tempo['vida_jogador']
-        mana_jogador = reversao_tempo['mana_jogador']
-        vida_boss = reversao_tempo['vida_boss']
-        print('🔁  Mago do Tempo usou ressurgir')
-
-        ataques_boss_repetir = ataques_boss[-2:]
-        ataques_boss = ataques_boss[:-2]
-        historico = historico[:-2]
-    return mana_jogador, vida_jogador, vida_boss, ataques_boss_repetir, ataques_boss, historico
+#--------------------- MAPA VISIVEL --------------------
+def mapa_visivel():
+    mapa_visivel = []
+    for l in range(3):
+        linha = []
+        for c in range(3):
+            linha.append('?')  # sala ainda não visitada
+        mapa_visivel.append(linha)
+    return mapa_visivel

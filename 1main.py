@@ -1,29 +1,20 @@
-import os
 import time
 import random
 import acoes
 import boss
 import boss_voltar_magias
+import magias_jogador
 
-vida_jogador = 120
-mana_jogador = 100
-vida_boss = 200
+vida_jogador = 150
+mana_jogador = 120
+vida_boss = 10
 historico = []
-chance_atual_lorde = 50
+chance_atual_lorde = 30
 explosao = False
 defesa = False
 ataques_boss = []
 ataques_boss_repetir = []
-
-
-
-def apagar():
-    if os.name == 'nt':  
-        os.system('cls')
-    else: 
-        os.system('clear')
-     
-        
+andar = 0
 
 turno = 1
 print('')
@@ -34,13 +25,11 @@ historico.append(historico_turno)
 while True:
     print(f'--------------- TURNO {turno} ---------------')
     print('')
-
     print(f'🧙❤️  Vida Jogador = {vida_jogador}')
     print(f'🧙💧 Mana Jogador = {mana_jogador}')
     print(f'💀🤍 Vida Boss = {vida_boss}')
     print(f'🎲 Chance atual do Lorde Sombrio: {chance_atual_lorde} ')
     print('')
-
     acoes.escolha_acao()
 
     escolha = input('-> Escolha sua ação entre (1 a 6): ')
@@ -49,55 +38,30 @@ while True:
     if escolha  not in ['1','2','3','4','5','6']:
         print('Opção errada tente novamente!')
         time.sleep(2)
-        apagar()
+        acoes.apagar()
         continue
     
     # ---------- MAGIAS ----------
     if escolha == '1':
-        mana_jogador, vida_boss, sucesso = acoes.rajada_temporal(mana_jogador, vida_boss)
+        mana_jogador, vida_boss, sucesso = magias_jogador.rajada_temporal(mana_jogador, vida_boss)
         if not sucesso:
             time.sleep(2)
-            apagar()
+            acoes.apagar()
             continue
 
     if escolha == '2':
-        mana_jogador, vida_boss, sucesso = acoes.fenda_do_tempo(mana_jogador, vida_boss)
+        mana_jogador, vida_boss, sucesso = magias_jogador.fenda_do_tempo(mana_jogador, vida_boss)
         if not sucesso:
             time.sleep(2)
-            apagar()
+            acoes.apagar()
             continue
 
     # ---------- VOLTAR NO TEMPO ----------
     if escolha == '3':
-        mana_jogador, vida_jogador, vida_boss, ataques_boss_repetir, ataques_boss, historico = acoes.ressurgir_temporal(mana_jogador, vida_jogador, vida_boss, ataques_boss_repetir, ataques_boss, historico)
-        '''
-        if mana_jogador < 40:
-            print(f'Essa magia custa 40 de mana, voce tem apenas {mana_jogador} no momento.')
-            time.sleep(2)
-            apagar()
-            continue
-        if len(historico) < 3:
-            print('Voce precisa de pelo menos 2 turnos a mais para usar essa magia!')
-            time.sleep(2)
-            apagar()
-            continue
-
-        if mana_jogador >= 40:
-            mana_jogador -= 40
-            reversao_tempo = historico[-3]
-
-            vida_jogador = reversao_tempo['vida_jogador']
-            mana_jogador = reversao_tempo['mana_jogador']
-            vida_boss = reversao_tempo['vida_boss']
-            print('🔁  Mago do Tempo usou ressurgir')
-
-            ataques_boss_repetir = ataques_boss[-2:]
-            ataques_boss = ataques_boss[:-2]
-            historico = historico[:-2]
-        '''
+        mana_jogador, vida_jogador, vida_boss, ataques_boss_repetir, ataques_boss, historico = magias_jogador.ressurgir_temporal(mana_jogador, vida_jogador, vida_boss, ataques_boss_repetir, ataques_boss, historico)
         turno -= 2
         time.sleep(2)
-        apagar()
+        acoes.apagar()
         continue
         
 
@@ -108,9 +72,9 @@ while True:
 
     # ---------- POÇÃO ----------
     if escolha == '5':
-        vida_jogador = acoes.usar_pocao_vida(vida_jogador)
+        vida_jogador = magias_jogador.usar_pocao_vida(vida_jogador)
     elif escolha == '6':
-        mana_jogador = acoes.usar_pocao_mana(mana_jogador)
+        mana_jogador = magias_jogador.usar_pocao_mana(mana_jogador)
 
     time.sleep(1)
 
@@ -136,15 +100,17 @@ while True:
         
         ataques_boss.append({'turno': turno,'tipo':tipo ,'dano_lorde':dano_lorde})
 
+    # ---------- VITORIA OU DERROTA----------
     if vida_jogador <= 0:
         print('')
         print('Mago do Tempo morreu, Loooorde das Sombras Venceu!')
-        time.sleep(2.5)
+        time.sleep(3)
         break
     elif vida_boss <= 0:
         print('')
-        print('Lorde das Sombras morreu, Mago do tempo retorna a sua Vila Vivo!')
-        time.sleep(2.5)
+        print('Lorde das Sombras morreu, Mago do Tempo saiu vivo!')
+        andar = 1
+        time.sleep(3)
         break
 
 
@@ -154,11 +120,53 @@ while True:
         turno += 1
         historico_turno = {'turno':turno,'vida_jogador': vida_jogador , 'mana_jogador':mana_jogador , 'vida_boss':vida_boss, 'chance_atual_lorde':chance_atual_lorde} 
         historico.append(historico_turno)
-        apagar()
+        acoes.apagar()
         continue
     else:
-        apagar()
+        acoes.apagar()
         print('Voce fugiu, COVARDE!')
         break
+#-----------------------------------------------------------------------------
+acoes.texto()
+acoes.continuar_para_torre1(andar)
+#-----------------------------------------------------------------------------
+mapa = acoes.gerar_mapa()
+pos_l, pos_c = 0, 0
+    
+mapa_visivel = acoes.mapa_visivel()
+mapa_visivel[pos_l][pos_c] = mapa[pos_l][pos_c]
 
-  
+while True:
+    if andar == 1:
+        break
+    
+    print(f'Voce esta na Sala {mapa[pos_l][pos_c]}')
+    print('')
+    for linha in mapa_visivel:
+        print(linha)
+
+    if mapa[pos_l][pos_c] == 'Escadas':
+        print("🎉 Você encontrou as escadas e completou o andar!")
+        break
+
+    comando = input("Mover (W/A/S/D) ou 'sair': ").strip().lower()
+    
+    nova_l, nova_c = pos_l, pos_c
+    if comando == 'w' and pos_l > 0:
+        nova_l -= 1
+    elif comando == 's' and pos_l < 2:
+        nova_l += 1
+    elif comando == 'a' and pos_c > 0:
+        nova_c -= 1
+    elif comando == 'd' and pos_c < 2:
+        nova_c += 1
+    elif comando == 'sair':
+        print("Saindo do jogo...")
+        break
+    else:
+        print("Movimento inválido!")
+        continue
+    
+    # Atualizar posição e revelar a sala no mapa visível
+    pos_l, pos_c = nova_l, nova_c
+    mapa_visivel[pos_l][pos_c] = mapa[pos_l][pos_c]
