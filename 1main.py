@@ -126,6 +126,8 @@ while True:
         acoes.apagar()
         print('Voce fugiu, COVARDE!')
         break
+
+#---- SAIU DO PRIMEIRO WHILE
 #-----------------------------------------------------------------------------
 acoes.texto()
 acoes.continuar_para_torre1(andar)
@@ -137,7 +139,7 @@ mapa_visivel = acoes.mapa_visivel()
 mapa_visivel[pos_l][pos_c] = mapa[pos_l][pos_c]
 
 while True:
-    if andar == 1:
+    if andar != 1:
         break
     
     print(f'Voce esta na Sala {mapa[pos_l][pos_c]}')
@@ -146,8 +148,14 @@ while True:
         print(linha)
 
     if mapa[pos_l][pos_c] == 'Escadas':
-        print("🎉 Você encontrou as escadas e completou o andar!")
+        print("🎉 Você encontrou as escadas 🎉")
+        print('No momento em que voce sobe um BOSS aparece em sua frente...\n' \
+        'Sua missao atual: Derrote o Guardião de Pedra!')
+
+        boss_derrotado = acoes.enfrentar_boss()
         break
+    
+        
 
     comando = input("Mover (W/A/S/D) ou 'sair': ").strip().lower()
     
@@ -170,3 +178,7 @@ while True:
     # Atualizar posição e revelar a sala no mapa visível
     pos_l, pos_c = nova_l, nova_c
     mapa_visivel[pos_l][pos_c] = mapa[pos_l][pos_c]
+    acoes.apagar()
+
+
+    

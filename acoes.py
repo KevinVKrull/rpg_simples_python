@@ -28,7 +28,7 @@ def texto():
     print('')
     print('-> Sua missão: escalar a Torre Sombria, sobreviver aos desafios de cada andar e derrotar o Senhor das Chamas no topo.') 
 
-#-------------------- Texto continuar a torre --------------------
+#-------------------- Texto continuar a torre 1 --------------------
 def continuar_para_torre1(andar):
     while True:
         continuar = input('Deseja Continuar para Torre 1? [S/N]: ').lower()
@@ -69,3 +69,6 @@ def mapa_visivel():
             linha.append('?')  # sala ainda não visitada
         mapa_visivel.append(linha)
     return mapa_visivel
+
+def enfrentar_boss():
+    print('')
