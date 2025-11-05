@@ -5,31 +5,49 @@ import boss
 import boss_voltar_magias
 import magias_jogador
 
-vida_jogador = 150
-mana_jogador = 120
-vida_boss = 10
+
+
+mago_do_tempo = {
+    "nome": "Mago do Tempo",
+    "vida":100,
+    "mana":100,
+    'vida_maxima':200,
+    "defesa":False,
+}
+
+lorde_sombrio = {
+    "nome": "Lorde Sombrio",
+    "vida": 10,
+    "chance_explosao": 30,
+    'explosao':False,
+}
+
 historico = []
-chance_atual_lorde = 30
-explosao = False
-defesa = False
 ataques_boss = []
 ataques_boss_repetir = []
 andar = 0
-
 turno = 1
 print('')
 
-historico_turno = {'turno':turno,'vida_jogador': vida_jogador , 'mana_jogador':mana_jogador , 'vida_boss':vida_boss, 'chance_atual_lorde':chance_atual_lorde} 
+
+
+def mostrar_status(mago_do_tempo, lorde_sombrio, turno):
+    print(f'\n--------------- TURNO {turno} ---------------\n')
+    print(f'🧙 {mago_do_tempo['nome']} = ❤️  {mago_do_tempo['vida']}')
+    print(f'🧙 {mago_do_tempo['nome']} = 💧 {mago_do_tempo['mana']}')
+    print(f'🧙 {mago_do_tempo['nome']} = 🛡️  {mago_do_tempo['defesa']}')
+    print(f'💀 {lorde_sombrio['nome']} = 🤍 {lorde_sombrio['vida']}')
+    print(f'🎲 Chance atual do Lorde Sombrio: {lorde_sombrio['chance_explosao']}')
+
+historico_turno = {
+        "turno": turno,
+        "mago_do_tempo": mago_do_tempo.copy(),
+        "lorde_sombrio": lorde_sombrio.copy()
+    }
 historico.append(historico_turno)
 
 while True:
-    print(f'--------------- TURNO {turno} ---------------')
-    print('')
-    print(f'🧙❤️  Vida Jogador = {vida_jogador}')
-    print(f'🧙💧 Mana Jogador = {mana_jogador}')
-    print(f'💀🤍 Vida Boss = {vida_boss}')
-    print(f'🎲 Chance atual do Lorde Sombrio: {chance_atual_lorde} ')
-    print('')
+    mostrar_status(mago_do_tempo, lorde_sombrio, turno)
     acoes.escolha_acao()
 
     escolha = input('-> Escolha sua ação entre (1 a 6): ')
@@ -43,23 +61,26 @@ while True:
     
     # ---------- MAGIAS ----------
     if escolha == '1':
-        mana_jogador, vida_boss, sucesso = magias_jogador.rajada_temporal(mana_jogador, vida_boss)
+        mago_do_tempo, lorde_sombrio, sucesso = magias_jogador.rajada_temporal(mago_do_tempo, lorde_sombrio)
         if not sucesso:
             time.sleep(2)
             acoes.apagar()
             continue
 
     if escolha == '2':
-        mana_jogador, vida_boss, sucesso = magias_jogador.fenda_do_tempo(mana_jogador, vida_boss)
+        mago_do_tempo, lorde_sombrio, sucesso = magias_jogador.fenda_do_tempo(mago_do_tempo, lorde_sombrio)
         if not sucesso:
             time.sleep(2)
             acoes.apagar()
             continue
 
+    
     # ---------- VOLTAR NO TEMPO ----------
     if escolha == '3':
-        mana_jogador, vida_jogador, vida_boss, ataques_boss_repetir, ataques_boss, historico = magias_jogador.ressurgir_temporal(mana_jogador, vida_jogador, vida_boss, ataques_boss_repetir, ataques_boss, historico)
-        turno -= 2
+        mago_do_tempo, lorde_sombrio, ataques_boss_repetir, ataques_boss, historico, sucesso = magias_jogador.ressurgir_temporal(mago_do_tempo, lorde_sombrio, ataques_boss_repetir, ataques_boss, historico)
+        if sucesso:
+            turno = max(1, turno - 2)
+            
         time.sleep(2)
         acoes.apagar()
         continue
@@ -68,14 +89,14 @@ while True:
     # ---------- DEFESA ----------
     if escolha == '4':
         print('Mago do Tempo: Ativou sua Defesa 🛡️')
-        defesa = True
+        mago_do_tempo['defesa'] = True
 
     # ---------- POÇÃO ----------
     if escolha == '5':
-        vida_jogador = magias_jogador.usar_pocao_vida(vida_jogador)
+        mago_do_tempo = magias_jogador.usar_pocao_vida(mago_do_tempo)
     elif escolha == '6':
-        mana_jogador = magias_jogador.usar_pocao_mana(mana_jogador)
-
+        mago_do_tempo = magias_jogador.usar_pocao_mana(mago_do_tempo)
+    
     time.sleep(1)
 
     print('')
@@ -84,41 +105,38 @@ while True:
     chance_lorde = random.randint(1, 100)
     print(f'Chance roletada: {chance_lorde}')
     print('')
-    
+    '''
     # ---------- REPETIR MAGIAS BOSS---------- 
     if len(ataques_boss_repetir) > 0:
-        ataques_boss_repetir, vida_jogador, defesa = boss_voltar_magias.boss_voltar_magias(ataques_boss_repetir,vida_jogador,defesa)
-        
-    else:
+        ataques_boss_repetir, mago_do_tempo = boss_voltar_magias.boss_voltar_magias(ataques_boss_repetir,mago_do_tempo)
+    '''   
         # ---------- EXPLOSAO BOSS----------
-        if chance_lorde < chance_atual_lorde:
-            vida_jogador, explosao, defesa, dano_lorde, chance_atual_lorde, tipo = boss.magias_boss(vida_jogador,defesa,chance_lorde,chance_atual_lorde)
-
-        # ---------- SOCO SIMPLES BOSS----------        
-        else:
-            vida_jogador, explosao, defesa,dano_lorde,chance_atual_lorde,tipo = boss.magias_boss(vida_jogador, defesa,chance_lorde, chance_atual_lorde)
-        
-        ataques_boss.append({'turno': turno,'tipo':tipo ,'dano_lorde':dano_lorde})
-
+    mago_do_tempo, lorde_sombrio, dano_lorde, tipo = boss.magias_boss(mago_do_tempo, lorde_sombrio, chance_lorde)
+    ataques_boss.append({'turno': turno,'tipo':tipo ,'dano_lorde':dano_lorde})
+    
     # ---------- VITORIA OU DERROTA----------
-    if vida_jogador <= 0:
+    if mago_do_tempo['vida'] <= 0:
         print('')
         print('Mago do Tempo morreu, Loooorde das Sombras Venceu!')
         time.sleep(3)
         break
-    elif vida_boss <= 0:
+    elif lorde_sombrio['vida'] <= 0:
         print('')
         print('Lorde das Sombras morreu, Mago do Tempo saiu vivo!')
         andar = 1
         time.sleep(3)
         break
-
+    
 
     continuar = input('[S/N]: ')
 
     if continuar in 'Ss':
         turno += 1
-        historico_turno = {'turno':turno,'vida_jogador': vida_jogador , 'mana_jogador':mana_jogador , 'vida_boss':vida_boss, 'chance_atual_lorde':chance_atual_lorde} 
+        historico_turno = {
+            "turno": turno,
+            "mago_do_tempo": mago_do_tempo.copy(),
+            "lorde_sombrio": lorde_sombrio.copy()
+        }
         historico.append(historico_turno)
         acoes.apagar()
         continue
