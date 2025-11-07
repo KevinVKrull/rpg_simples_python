@@ -1,6 +1,7 @@
 import random
 import time
 import acoes
+import copy
 
 def rajada_temporal(mago_do_tempo, lorde_sombrio):
     if mago_do_tempo['mana'] >= 5:
@@ -34,7 +35,7 @@ def usar_pocao_vida(mago_do_tempo):
 
 def usar_pocao_mana(mago_do_tempo):
     mana = random.randint(25, 35)
-    nova_mana = min(mago_do_tempo['mana'] + mana, 100)
+    nova_mana = min(mago_do_tempo['mana'] + mana, mago_do_tempo['mana_maxima'])
     print(f'Mago do Tempo: recuperou 💧  {nova_mana - mago_do_tempo['mana']} de mana!')
     mago_do_tempo['mana'] = nova_mana
     return mago_do_tempo
@@ -51,13 +52,11 @@ def ressurgir_temporal(mago_do_tempo, lorde_sombrio, ataques_boss_repetir, ataqu
     if mago_do_tempo['mana'] >= 40:
         mago_do_tempo['mana'] -= 40
 
-        mago_do_tempo = historico[-3]['mago_do_tempo']
-        lorde_sombrio = historico[-3]['lorde_sombrio']
+        mago_do_tempo = copy.deepcopy(historico[-3]['mago_do_tempo'])
+        lorde_sombrio = copy.deepcopy(historico[-3]['lorde_sombrio'])
         print('🔁  Mago do Tempo usou ressurgir')
 
-        ataques_boss_repetir = ataques_boss[-2:]
+        ataques_boss_repetir = copy.deepcopy(ataques_boss[-2:])
         ataques_boss = ataques_boss[:-2]
         historico = historico[:-2]
-        time.sleep(2)
-        acoes.apagar()
         return mago_do_tempo, lorde_sombrio, ataques_boss_repetir, ataques_boss, historico, True

@@ -43,32 +43,7 @@ def continuar_para_torre1(andar):
             break
     return andar
 
-#--------------------- GERADOR DE MAPA --------------------
-def gerar_mapa():
-    possiveis_salas = ['Combate','Tesouro','Mercador','Descanso','Evento']
-    mapa = []
 
-    for l in range(3):
-        lista = []
-        for c in range(3):
-            if l == 0 and c == 0:
-                lista.append('Inicio')
-            elif l == 2 and c == 2:
-                lista.append('Escadas')
-            else:
-                lista.append(random.choice(possiveis_salas))
-        mapa.append(lista)
-    return mapa
-
-#--------------------- MAPA VISIVEL --------------------
-def mapa_visivel():
-    mapa_visivel = []
-    for l in range(3):
-        linha = []
-        for c in range(3):
-            linha.append('?')  # sala ainda não visitada
-        mapa_visivel.append(linha)
-    return mapa_visivel
-
-def enfrentar_boss():
+def enfrentar_guardiao():
     print('')
+

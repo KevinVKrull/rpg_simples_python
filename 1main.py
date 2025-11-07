@@ -4,20 +4,26 @@ import acoes
 import boss
 import boss_voltar_magias
 import magias_jogador
-
-
+import copy
+import gerador_mapas
 
 mago_do_tempo = {
     "nome": "Mago do Tempo",
-    "vida":100,
-    "mana":100,
-    'vida_maxima':200,
-    "defesa":False,
+    "vida": 150,
+    "mana": 120,
+    'vida_maxima': 150,
+    'mana_maxima': 120,
+    "defesa": False,
+    'armadura': 0,
+    'moedas_iniciais': 50,
+    'velocidade': 5,
+    'inventario': [...],
+
 }
 
 lorde_sombrio = {
     "nome": "Lorde Sombrio",
-    "vida": 10,
+    "vida":10,
     "chance_explosao": 30,
     'explosao':False,
 }
@@ -25,12 +31,12 @@ lorde_sombrio = {
 historico = []
 ataques_boss = []
 ataques_boss_repetir = []
-andar = 0
+andar = 1
 turno = 1
 print('')
 
 
-
+'''
 def mostrar_status(mago_do_tempo, lorde_sombrio, turno):
     print(f'\n--------------- TURNO {turno} ---------------\n')
     print(f'🧙 {mago_do_tempo['nome']} = ❤️  {mago_do_tempo['vida']}')
@@ -47,6 +53,7 @@ historico_turno = {
 historico.append(historico_turno)
 
 while True:
+    print(historico)
     mostrar_status(mago_do_tempo, lorde_sombrio, turno)
     acoes.escolha_acao()
 
@@ -105,14 +112,14 @@ while True:
     chance_lorde = random.randint(1, 100)
     print(f'Chance roletada: {chance_lorde}')
     print('')
-    '''
+    
     # ---------- REPETIR MAGIAS BOSS---------- 
     if len(ataques_boss_repetir) > 0:
         ataques_boss_repetir, mago_do_tempo = boss_voltar_magias.boss_voltar_magias(ataques_boss_repetir,mago_do_tempo)
-    '''   
+    else:  
         # ---------- EXPLOSAO BOSS----------
-    mago_do_tempo, lorde_sombrio, dano_lorde, tipo = boss.magias_boss(mago_do_tempo, lorde_sombrio, chance_lorde)
-    ataques_boss.append({'turno': turno,'tipo':tipo ,'dano_lorde':dano_lorde})
+        mago_do_tempo, lorde_sombrio, dano_lorde, tipo = boss.magias_boss(mago_do_tempo, lorde_sombrio, chance_lorde)
+        ataques_boss.append({'turno': turno,'tipo':tipo ,'dano_lorde':dano_lorde})
     
     # ---------- VITORIA OU DERROTA----------
     if mago_do_tempo['vida'] <= 0:
@@ -144,36 +151,56 @@ while True:
         acoes.apagar()
         print('Voce fugiu, COVARDE!')
         break
-
+'''
 #---- SAIU DO PRIMEIRO WHILE
 #-----------------------------------------------------------------------------
 acoes.texto()
 acoes.continuar_para_torre1(andar)
 #-----------------------------------------------------------------------------
-mapa = acoes.gerar_mapa()
+mapa, mapa_nome = gerador_mapas.gerar_mapa()
 pos_l, pos_c = 0, 0
-    
-mapa_visivel = acoes.mapa_visivel()
+
+mapa_visivel = gerador_mapas.mapa_visivel()
 mapa_visivel[pos_l][pos_c] = mapa[pos_l][pos_c]
+salas_resolvidas = gerador_mapas.salas_resolvidas()
 
 while True:
     if andar != 1:
         break
-    
-    print(f'Voce esta na Sala {mapa[pos_l][pos_c]}')
+
+    acoes.apagar()
+    print(f'Voce esta na Sala {mapa_nome[pos_l][pos_c]}')
     print('')
     for linha in mapa_visivel:
         print(linha)
 
-    if mapa[pos_l][pos_c] == 'Escadas':
+    if mapa_nome[pos_l][pos_c] == 'Escadas':
         print("🎉 Você encontrou as escadas 🎉")
         print('No momento em que voce sobe um BOSS aparece em sua frente...\n' \
         'Sua missao atual: Derrote o Guardião de Pedra!')
 
-        boss_derrotado = acoes.enfrentar_boss()
+        boss_derrotado = gerador_mapas.enfrentar_boss()
         break
     
-        
+    if not salas_resolvidas[pos_l][pos_c]:
+
+        salas_resolvidas[pos_l][pos_c] = True
+        sala_atual = mapa[pos_l][pos_c]
+
+        if sala_atual == 'Combate':
+            print('Voce entrou em um combate, Enfrente o Guardião de Pedra!')
+            gerador_mapas.enfrentar_guardiao()
+        elif sala_atual == 'Tesouro':
+            print('Voce entrou em uma sala de Tesouro')
+        elif sala_atual == 'Mercador':
+            print('Voce encontrou um Mercador')
+        elif sala_atual == 'Descanso':
+            print('Voce achou um lugar para Recuperar suas Energias')
+        elif sala_atual == 'Evento':
+            print('Sala de Evento')
+
+    else:
+        print('Voce ja passou por essa sala')
 
     comando = input("Mover (W/A/S/D) ou 'sair': ").strip().lower()
     
@@ -192,11 +219,7 @@ while True:
     else:
         print("Movimento inválido!")
         continue
-    
-    # Atualizar posição e revelar a sala no mapa visível
+
+
     pos_l, pos_c = nova_l, nova_c
     mapa_visivel[pos_l][pos_c] = mapa[pos_l][pos_c]
-    acoes.apagar()
-
-
-    
