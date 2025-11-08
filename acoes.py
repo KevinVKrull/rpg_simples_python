@@ -30,6 +30,9 @@ def texto():
 
 #-------------------- Texto continuar a torre 1 --------------------
 def continuar_para_torre1(andar):
+    print('')
+    input('Aperte ENTER para continuar.')
+    '''
     while True:
         continuar = input('Deseja Continuar para Torre 1? [S/N]: ').lower()
 
@@ -42,6 +45,7 @@ def continuar_para_torre1(andar):
             apagar()
             break
     return andar
+    '''
 
 
 def enfrentar_guardiao():

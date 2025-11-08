@@ -56,7 +56,8 @@ def ressurgir_temporal(mago_do_tempo, lorde_sombrio, ataques_boss_repetir, ataqu
         lorde_sombrio = copy.deepcopy(historico[-3]['lorde_sombrio'])
         print('🔁  Mago do Tempo usou ressurgir')
 
-        ataques_boss_repetir = copy.deepcopy(ataques_boss[-2:])
-        ataques_boss = ataques_boss[:-2]
-        historico = historico[:-2]
+        ataques_boss_repetir = (ataques_boss[-2:])
+        print(ataques_boss_repetir)
+        #ataques_boss = copy.deepcopy(ataques_boss[:-2])
+        #historico = historico[:-2]
         return mago_do_tempo, lorde_sombrio, ataques_boss_repetir, ataques_boss, historico, True

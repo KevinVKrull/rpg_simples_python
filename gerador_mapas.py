@@ -1,18 +1,19 @@
 import random
+import boss_andar
 
 #--------------------- GERADOR DE MAPA COM EMOTE --------------------
 def gerar_mapa():
     possiveis_salas = ['Combate','Descanso','Tesouro','Mercador','Evento']
-    pesos = [40, 50, 50, 20, 20]
+    pesos = [10, 0, 0, 0, 0]
 
     emojis = {
         'Inicio': '🏠',
-        'Combate': '⚔️',
+        'Combate': '⚔️ ',
         'Tesouro': '💰',
         'Mercador': '🧑',
         'Descanso': '🛌',
         'Evento': '🎲',
-        'Escadas': '🪜'
+        'Escadas': '🪜',
         }
 
     mapa = []
@@ -48,8 +49,6 @@ def mapa_visivel():
         mapa_visivel.append(linha)
     return mapa_visivel
 
-def enfrentar_boss():
-    print('')
 
 def salas_resolvidas():
     salas_resolvidas = []
@@ -59,3 +58,22 @@ def salas_resolvidas():
             lista.append(False)
         salas_resolvidas.append(lista)
     return salas_resolvidas
+
+
+def enfrentar_boss():
+    print('')
+
+
+def enfrentar_guardiao(mago_do_tempo, guardiao_de_pedra):
+    while True:
+        print('1')
+    
+
+def tesouro():
+    print('')
+
+def mercador():
+    print('')
+
+def sala_descanso():
+    print('')

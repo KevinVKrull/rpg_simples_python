@@ -6,6 +6,7 @@ import boss_voltar_magias
 import magias_jogador
 import copy
 import gerador_mapas
+import boss_andar
 
 mago_do_tempo = {
     "nome": "Mago do Tempo",
@@ -23,7 +24,7 @@ mago_do_tempo = {
 
 lorde_sombrio = {
     "nome": "Lorde Sombrio",
-    "vida":10,
+    "vida":200,
     "chance_explosao": 30,
     'explosao':False,
 }
@@ -36,7 +37,7 @@ turno = 1
 print('')
 
 
-'''
+
 def mostrar_status(mago_do_tempo, lorde_sombrio, turno):
     print(f'\n--------------- TURNO {turno} ---------------\n')
     print(f'🧙 {mago_do_tempo['nome']} = ❤️  {mago_do_tempo['vida']}')
@@ -56,6 +57,8 @@ while True:
     print(historico)
     mostrar_status(mago_do_tempo, lorde_sombrio, turno)
     acoes.escolha_acao()
+    print(ataques_boss)
+    print(ataques_boss_repetir)
 
     escolha = input('-> Escolha sua ação entre (1 a 6): ')
     print('')
@@ -85,8 +88,7 @@ while True:
     # ---------- VOLTAR NO TEMPO ----------
     if escolha == '3':
         mago_do_tempo, lorde_sombrio, ataques_boss_repetir, ataques_boss, historico, sucesso = magias_jogador.ressurgir_temporal(mago_do_tempo, lorde_sombrio, ataques_boss_repetir, ataques_boss, historico)
-        if sucesso:
-            turno = max(1, turno - 2)
+    
             
         time.sleep(2)
         acoes.apagar()
@@ -135,8 +137,16 @@ while True:
         break
     
 
-    continuar = input('[S/N]: ')
-
+    continuar = input('Aperte ENTER para continuar: ')
+    turno += 1
+    historico_turno = {
+            "turno": turno,
+            "mago_do_tempo": mago_do_tempo.copy(),
+            "lorde_sombrio": lorde_sombrio.copy()
+        }
+    historico.append(historico_turno)
+    acoes.apagar()
+    '''
     if continuar in 'Ss':
         turno += 1
         historico_turno = {
@@ -151,7 +161,9 @@ while True:
         acoes.apagar()
         print('Voce fugiu, COVARDE!')
         break
-'''
+    '''
+    
+
 #---- SAIU DO PRIMEIRO WHILE
 #-----------------------------------------------------------------------------
 acoes.texto()
@@ -161,7 +173,7 @@ mapa, mapa_nome = gerador_mapas.gerar_mapa()
 pos_l, pos_c = 0, 0
 
 mapa_visivel = gerador_mapas.mapa_visivel()
-mapa_visivel[pos_l][pos_c] = mapa[pos_l][pos_c]
+mapa_visivel[pos_l][pos_c] = mapa_nome[pos_l][pos_c]
 salas_resolvidas = gerador_mapas.salas_resolvidas()
 
 while True:
@@ -171,9 +183,11 @@ while True:
     acoes.apagar()
     print(f'Voce esta na Sala {mapa_nome[pos_l][pos_c]}')
     print('')
+
     for linha in mapa_visivel:
         print(linha)
 
+    print('1')
     if mapa_nome[pos_l][pos_c] == 'Escadas':
         print("🎉 Você encontrou as escadas 🎉")
         print('No momento em que voce sobe um BOSS aparece em sua frente...\n' \
@@ -185,19 +199,23 @@ while True:
     if not salas_resolvidas[pos_l][pos_c]:
 
         salas_resolvidas[pos_l][pos_c] = True
-        sala_atual = mapa[pos_l][pos_c]
-
+        sala_atual = mapa_nome[pos_l][pos_c]
+        print(sala_atual)
         if sala_atual == 'Combate':
             print('Voce entrou em um combate, Enfrente o Guardião de Pedra!')
-            gerador_mapas.enfrentar_guardiao()
+            gerador_mapas.enfrentar_guardiao(boss_andar.magoo_do_tempo,boss_andar.guardiao_de_pedra)
         elif sala_atual == 'Tesouro':
             print('Voce entrou em uma sala de Tesouro')
+            gerador_mapas.tesouro()
         elif sala_atual == 'Mercador':
             print('Voce encontrou um Mercador')
+            gerador_mapas.mercador()
         elif sala_atual == 'Descanso':
             print('Voce achou um lugar para Recuperar suas Energias')
+            gerador_mapas.sala_descanso()
         elif sala_atual == 'Evento':
             print('Sala de Evento')
+            gerador_mapas.evento()
 
     else:
         print('Voce ja passou por essa sala')
