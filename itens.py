@@ -1,3 +1,4 @@
+#------------------ CAJADO ------------------
 cajado_de_madeira = {
     'nome': 'Cajado de Madeira',
     'tipo': 'equipamento',
@@ -17,7 +18,7 @@ cajado_do_tempo = {
     'empilhavel': False,
     'quantidade': 1
 }
-
+#------------------ ARMADURAS ------------------
 armadura_leve = {
     'nome': 'Armadura Leve',
     'tipo': 'equipamento',
@@ -37,8 +38,8 @@ armadura_pesada = {
     'empilhavel': False,
     'quantidade': 1
 }
-
-amulero_de_regeneracao = {
+#------------------ AMULETOS ------------------
+amuleto_de_regeneracao = {
     'nome': 'Amuleto de Regeneração',
     'tipo': 'colar',
     'efeito': 'buff',
@@ -57,3 +58,34 @@ amuleto_de_velocidade = {
     'empilhavel': False,
     'quantidade': 1
 }
+#------------------ ITEMS MISSEIS SEI LA O QUE ------------------
+amuleto_quebrado = {
+    'nome': 'Amuleto Quebrado',
+    'tipo': 'lixo',
+    'efeito': '',
+    'velocidade': 0,
+    'preco': 2,
+    'empilhavel': False,
+    'raridade': 'Comum'
+}
+
+espada_quebrada = {
+    'nome': 'Espada Quebrada',
+    'tipo': 'lixo',
+    'efeito': '',
+    'dano': 0,
+    'preco': 7,
+    'empilhavel': False,
+    'raridade': 'Comum'
+}
+
+espetinho_de_rato = {
+    'nome': 'Espetinho de Rato',
+    'tipo': 'lixo',
+    'efeito': '',
+    'dano': 0,
+    'preco': 50,
+    'empilhavel': False,
+    'raridade': 'Epico'
+}
+

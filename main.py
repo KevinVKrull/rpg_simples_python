@@ -8,6 +8,7 @@ import copy
 import gerador_mapas
 import boss_andar
 
+
 mago_do_tempo = {
     "nome": "Mago do Tempo",
     "vida": 150,
@@ -18,13 +19,13 @@ mago_do_tempo = {
     'armadura': 0,
     'moedas_iniciais': 50,
     'velocidade': 5,
-    'inventario': [...],
+    'inventario': [],
 
 }
 
 lorde_sombrio = {
     "nome": "Lorde Sombrio",
-    "vida":200,
+    "vida":1,
     "chance_explosao": 30,
     'explosao':False,
 }
@@ -181,6 +182,7 @@ while True:
         break
 
     acoes.apagar()
+    print(mago_do_tempo['inventario'])
     print(f'Voce esta na Sala {mapa_nome[pos_l][pos_c]}')
     print('')
 
@@ -195,18 +197,22 @@ while True:
 
         boss_derrotado = gerador_mapas.enfrentar_boss()
         break
-    
+
+    # ----- ENTRA NA CONDIÇÃO DE SE ENTROU NA SALA -----
     if not salas_resolvidas[pos_l][pos_c]:
 
         salas_resolvidas[pos_l][pos_c] = True
         sala_atual = mapa_nome[pos_l][pos_c]
         print(sala_atual)
+
         if sala_atual == 'Combate':
             print('Voce entrou em um combate, Enfrente o Guardião de Pedra!')
             gerador_mapas.enfrentar_guardiao(boss_andar.magoo_do_tempo,boss_andar.guardiao_de_pedra)
+
         elif sala_atual == 'Tesouro':
             print('Voce entrou em uma sala de Tesouro')
-            gerador_mapas.tesouro()
+            mago_do_tempo = gerador_mapas.tesouro(mago_do_tempo)
+
         elif sala_atual == 'Mercador':
             print('Voce encontrou um Mercador')
             gerador_mapas.mercador()
@@ -219,7 +225,8 @@ while True:
 
     else:
         print('Voce ja passou por essa sala')
-
+    # ---------------------------------------------------------------------------
+    
     comando = input("Mover (W/A/S/D) ou 'sair': ").strip().lower()
     
     nova_l, nova_c = pos_l, pos_c

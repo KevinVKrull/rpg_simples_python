@@ -1,10 +1,12 @@
 import random
 import boss_andar
+import tesouros
+import inventario
 
 #--------------------- GERADOR DE MAPA COM EMOTE --------------------
 def gerar_mapa():
     possiveis_salas = ['Combate','Descanso','Tesouro','Mercador','Evento']
-    pesos = [10, 0, 0, 0, 0]
+    pesos = [0, 0, 100, 0, 0]
 
     emojis = {
         'Inicio': '🏠',
@@ -69,8 +71,36 @@ def enfrentar_guardiao(mago_do_tempo, guardiao_de_pedra):
         print('1')
     
 
-def tesouro():
-    print('')
+def tesouro(mago_do_tempo):
+    item = tesouros.bau_de_madeira()
+    chance = random.randint(0,100)
+    chance_mimic = 10
+    print(item)
+    print(chance)
+    
+    
+    abrir = input('Voce encontrou um bau, deseja abri-lo? [S/N]: ').lower()
+    if abrir == 's' and chance <= chance_mimic:
+        print('Um mimic surgiu')
+        return mago_do_tempo
+    elif abrir == 's' and chance > chance_mimic:
+        print(f'Voce encontrou um(a):')
+        print('')
+        for i, c in item.items():
+            print(f'{i}: {c}')
+        print('')
+
+        continuar = input('Guardar Item no Inventario? [S/N]: ').lower()
+
+        if continuar == 's':
+            if len(mago_do_tempo['inventario']) < 10:
+                mago_do_tempo['inventario'].append(item)
+                print('voce guardou o item no inventario')
+            else:
+                print('Voce esta com o inventario cheio')
+        else:
+            print('Voce jogou no chao')
+    return mago_do_tempo
 
 def mercador():
     print('')
