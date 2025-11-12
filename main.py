@@ -176,6 +176,7 @@ pos_l, pos_c = 0, 0
 mapa_visivel = gerador_mapas.mapa_visivel()
 mapa_visivel[pos_l][pos_c] = mapa_nome[pos_l][pos_c]
 salas_resolvidas = gerador_mapas.salas_resolvidas()
+estoque_andar1 = None
 
 while True:
     if andar != 1:
@@ -215,15 +216,26 @@ while True:
 
         elif sala_atual == 'Mercador':
             print('Voce encontrou um Mercador')
-            gerador_mapas.mercador()
+            mago_do_tempo, estoque_andar1  = gerador_mapas.mercador_itens(mago_do_tempo, estoque_andar1)
+
         elif sala_atual == 'Descanso':
             print('Voce achou um lugar para Recuperar suas Energias')
             gerador_mapas.sala_descanso()
+
         elif sala_atual == 'Evento':
             print('Sala de Evento')
             gerador_mapas.evento()
 
     else:
+        # ---------- OPÇÃO PRA CASO O JOGADOR QUEIRA VOLTAR NESSAS 2 SALAS ----------
+        if sala_atual == 'Mercador':
+            print('Voce encontrou um Mercador')
+            mago_do_tempo, estoque_andar1 = gerador_mapas.mercador_itens(mago_do_tempo, estoque_andar1)
+
+        elif sala_atual == 'Descanso':
+            print('Voce achou um lugar para Recuperar suas Energias')
+            gerador_mapas.sala_descanso()
+
         print('Voce ja passou por essa sala')
     # ---------------------------------------------------------------------------
     
