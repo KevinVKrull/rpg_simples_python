@@ -1,12 +1,15 @@
 import time
 import random
 import acoes
-import boss
-import boss_voltar_magias
-import magias_jogador
+import boss.boss as boss
+import boss.boss_voltar_magias as boss_voltar_magias
+import magias_jogador.magias_jogador as magias_jogador
 import copy
 import gerador_mapas
-import boss_andar
+import boss_atual
+import bau_de_tesouro
+import mercador_itens
+import movimentacao_andar
 
 
 mago_do_tempo = {
@@ -170,6 +173,8 @@ while True:
 acoes.texto()
 acoes.continuar_para_torre1(andar)
 #-----------------------------------------------------------------------------
+movimentacao_andar.combate_primeiro_andar()
+'''
 mapa, mapa_nome = gerador_mapas.gerar_mapa()
 pos_l, pos_c = 0, 0
 
@@ -208,15 +213,15 @@ while True:
 
         if sala_atual == 'Combate':
             print('Voce entrou em um combate, Enfrente o Guardião de Pedra!')
-            gerador_mapas.enfrentar_guardiao(boss_andar.magoo_do_tempo,boss_andar.guardiao_de_pedra)
+            gerador_mapas.enfrentar_guardiao(boss_atual.magoo_do_tempo,boss_atual.guardiao_de_pedra)
 
         elif sala_atual == 'Tesouro':
             print('Voce entrou em uma sala de Tesouro')
-            mago_do_tempo = gerador_mapas.tesouro(mago_do_tempo)
+            mago_do_tempo = bau_de_tesouro.tesouro(mago_do_tempo)
 
         elif sala_atual == 'Mercador':
             print('Voce encontrou um Mercador')
-            mago_do_tempo, estoque_andar1  = gerador_mapas.mercador_itens(mago_do_tempo, estoque_andar1)
+            mago_do_tempo, estoque_andar1  = mercador_itens.mercador(mago_do_tempo, estoque_andar1)
 
         elif sala_atual == 'Descanso':
             print('Voce achou um lugar para Recuperar suas Energias')
@@ -230,7 +235,7 @@ while True:
         # ---------- OPÇÃO PRA CASO O JOGADOR QUEIRA VOLTAR NESSAS 2 SALAS ----------
         if sala_atual == 'Mercador':
             print('Voce encontrou um Mercador')
-            mago_do_tempo, estoque_andar1 = gerador_mapas.mercador_itens(mago_do_tempo, estoque_andar1)
+            mago_do_tempo, estoque_andar1 = mercador_itens.mercador(mago_do_tempo, estoque_andar1)
 
         elif sala_atual == 'Descanso':
             print('Voce achou um lugar para Recuperar suas Energias')
@@ -260,3 +265,4 @@ while True:
 
     pos_l, pos_c = nova_l, nova_c
     mapa_visivel[pos_l][pos_c] = mapa[pos_l][pos_c]
+'''

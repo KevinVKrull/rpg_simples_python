@@ -1,8 +1,8 @@
 import random
-import boss_andar
-import tesouros
-import inventario
-import mercador
+import boss_atual
+import bau_de_tesouro
+import combate_andar
+import mercador_itens
 
 #--------------------- GERADOR DE MAPA COM EMOTE --------------------
 def gerar_mapa():
@@ -70,10 +70,11 @@ def enfrentar_boss():
 def enfrentar_guardiao(mago_do_tempo, guardiao_de_pedra):
     while True:
         print('1')
-    
+
+'''    
 # ---------- TESOUROS ---------------------
 def tesouro(mago_do_tempo):
-    item = tesouros.bau_de_madeira()
+    item = bau_de_tesouro.bau_de_madeira()
     chance = random.randint(0,100)
     chance_mimic = 10
     print(item)
@@ -103,14 +104,15 @@ def tesouro(mago_do_tempo):
             print('Voce jogou no chao')
     return mago_do_tempo
 
-
+'''
+'''
 # ---------- MERCADOR DE ITENS ---------------------
-def mercador_itens(mago_do_tempo, estoque_existente=None):
+def mercador(mago_do_tempo, estoque_existente=None):
 
     if estoque_existente is not None:
         estoque = estoque_existente
     else:
-        estoque = mercador.mercador_ambulante()
+        estoque = mercador_ambulante()
 
     while True:
         print('')
@@ -137,7 +139,7 @@ def mercador_itens(mago_do_tempo, estoque_existente=None):
         estoque.pop(indice)
         break
     return mago_do_tempo, estoque
-
+'''
 # ---------- SALA DESCANSO ---------------------
 def sala_descanso():
     print('')
