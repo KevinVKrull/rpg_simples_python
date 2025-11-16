@@ -7,7 +7,7 @@ import mercador_itens
 #--------------------- GERADOR DE MAPA COM EMOTE --------------------
 def gerar_mapa():
     possiveis_salas = ['Combate','Descanso','Tesouro','Mercador','Evento']
-    pesos = [0, 0, 0, 100, 0]
+    pesos = [100, 0, 0, 0, 0]
 
     emojis = {
         'Inicio': '🏠',
@@ -71,75 +71,6 @@ def enfrentar_guardiao(mago_do_tempo, guardiao_de_pedra):
     while True:
         print('1')
 
-'''    
-# ---------- TESOUROS ---------------------
-def tesouro(mago_do_tempo):
-    item = bau_de_tesouro.bau_de_madeira()
-    chance = random.randint(0,100)
-    chance_mimic = 10
-    print(item)
-    print(chance)
-    
-    
-    abrir = input('Voce encontrou um bau, deseja abri-lo? [S/N]: ').lower()
-    if abrir == 's' and chance <= chance_mimic:
-        print('Um mimic surgiu')
-        return mago_do_tempo
-    elif abrir == 's' and chance > chance_mimic:
-        print(f'Voce encontrou um(a):')
-        print('')
-        for i, c in item.items():
-            print(f'{i}: {c}')
-        print('')
-
-        continuar = input('Guardar Item no Inventario? [S/N]: ').lower()
-
-        if continuar == 's':
-            if len(mago_do_tempo['inventario']) < 10:
-                mago_do_tempo['inventario'].append(item)
-                print('voce guardou o item no inventario')
-            else:
-                print('Voce esta com o inventario cheio')
-        else:
-            print('Voce jogou no chao')
-    return mago_do_tempo
-
-'''
-'''
-# ---------- MERCADOR DE ITENS ---------------------
-def mercador(mago_do_tempo, estoque_existente=None):
-
-    if estoque_existente is not None:
-        estoque = estoque_existente
-    else:
-        estoque = mercador_ambulante()
-
-    while True:
-        print('')
-        for i, item in enumerate(estoque, start=1):
-            print(f'{i} Item: {item['nome']}, preco: {item['preco']}, tipo: {item['tipo']}')
-
-        escolha = input("Digite o número do item para comprar ou 'sair': ").lower()
-
-        if escolha == "sair":
-            print("Você saiu da loja. Até a próxima!")
-            break
-
-        if not escolha.isdigit():
-            print("❌ Escolha inválida! Digite um número.")
-            continue
-
-        indice = int(escolha) - 1
-        if indice < 0 or indice >= len(estoque):
-            print("❌ Item não existe!")
-            continue
-        
-        item = estoque[indice]
-        mago_do_tempo['inventario'].append(item)
-        estoque.pop(indice)
-        break
-    return mago_do_tempo, estoque
-'''
 # ---------- SALA DESCANSO ---------------------
 def sala_descanso():
     print('')

@@ -3,6 +3,9 @@ import bau_de_tesouro
 import mercador_itens
 import acoes
 import jogador.jogador_atual as jogador_atual
+import boss_atual
+import combate_andar
+import time
 
 
 def combate_primeiro_andar():
@@ -42,8 +45,16 @@ def combate_primeiro_andar():
             print(sala_atual)
 
             if sala_atual == 'Combate':
+                vitoria = None
                 print('Voce entrou em um combate, Enfrente o Guardião de Pedra!')
-                #gerador_mapas.enfrentar_guardiao(boss_atual.magoo_do_tempo,boss_atual.guardiao_de_pedra)
+                time.sleep(2)
+                acoes.apagar()
+                vitoria = combate_andar.enfrentar_guardiao(jogador_atual.mago_do_tempo, boss_atual.guardiao_de_pedra, vitoria)
+                if vitoria:
+                    print('VOCEEE VENCEEEU')
+                else:
+                    print('F PARA VOCE')
+                    break
 
             elif sala_atual == 'Tesouro':
                 print('Voce entrou em uma sala de Tesouro')

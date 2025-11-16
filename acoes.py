@@ -1,6 +1,7 @@
 import random
 import os
 import time
+import jogador.jogador_atual as jogador_atual
 
 def apagar():
     if os.name == 'nt':  
@@ -8,6 +9,7 @@ def apagar():
     else: 
         os.system('clear')
 
+#-------------------------- BOSS INTRODUÇÃO --------------------------------
 def escolha_acao():
     print('--------------- OPÇOES ---------------')
     print('')
@@ -19,6 +21,32 @@ def escolha_acao():
     print('5 -❤️  Poção de Vida: (restaura de 20-30 de vida)')
     print('6 -🔮 Poção de Mana: (restaura de 25-35 de mana)')
     print('')
+#----------------------------------------------------------------------------------------------------------------------
+
+#-------------------------- BOSS ANDAR --------------------------------
+def escolha_opcao():
+    print('--------------- OPÇOES ---------------')
+    print('')
+    print('            Escolha sua ação:')
+    print(' 1 -🌀 Atacar')
+    print(' 2 -🛡️  Defender')
+    print(' 3 -⏳ Poção')
+    print('')
+
+def ataque():
+    print('--------------- MAGIAS ---------------')
+    print('')
+    print('1 -🌀 Rajada Temporal: (5 de mana, 10-15 Dano)')
+    print('2 -⏳ Fenda do Tempo: (15 de mana 20-30 Dano)')
+    print('')
+    
+def pocao():
+    print('')
+    print(f'1 -❤️  Poção de Vida: (restaura de 20-30 de vida), Estoque: ')
+    print(f'2 -🔮 Poção de Mana: (restaura de 25-35 de mana)')
+    print('')
+    
+#----------------------------------------------------------------------------------------------------------------------
 
 def texto():
     apagar()
