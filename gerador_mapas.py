@@ -7,7 +7,7 @@ import mercador_itens
 #--------------------- GERADOR DE MAPA COM EMOTE --------------------
 def gerar_mapa():
     possiveis_salas = ['Combate','Descanso','Tesouro','Mercador','Evento']
-    pesos = [100, 0, 0, 0, 0]
+    pesos = [0, 0, 0, 0, 100]
 
     emojis = {
         'Inicio': '🏠',

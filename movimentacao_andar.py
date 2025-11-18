@@ -6,6 +6,7 @@ import jogador.jogador_atual as jogador_atual
 import boss_atual
 import combate_andar
 import time
+import eventos
 
 
 def combate_primeiro_andar():
@@ -70,7 +71,7 @@ def combate_primeiro_andar():
 
             elif sala_atual == 'Evento':
                 print('Sala de Evento')
-                gerador_mapas.evento()
+                eventos.sala_de_evento()
 
         else:
             # ---------- OPÇÃO PRA CASO O JOGADOR QUEIRA VOLTAR NESSAS 2 SALAS ----------
