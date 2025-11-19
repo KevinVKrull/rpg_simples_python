@@ -119,13 +119,11 @@ def enfrentar_guardiao(mago_do_tempo, guardiao_de_pedra, vitoria):
         if mago_do_tempo_atual['vida'] <= 0:
             print('Mago do Tempo morreu...')
             time.sleep(1)
-            vitoria = False
-            return vitoria
+            return False, mago_do_tempo_atual
         elif guardiao_de_pedra_atual['vida_atual'] <= 0:
             print('Guardiao de Pedra Morreu...')
             time.sleep(1)
-            vitoria = True
-            return vitoria
+            return True, mago_do_tempo_atual
 
         time.sleep(1)
         acoes.apagar()

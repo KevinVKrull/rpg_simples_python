@@ -24,6 +24,7 @@ def combate_primeiro_andar():
 
         acoes.apagar()
         print(jogador_atual.mago_do_tempo['inventario'])
+        print(jogador_atual.mago_do_tempo)
         print(f'Voce esta na Sala {mapa_nome[pos_l][pos_c]}')
         print('')
 
@@ -50,9 +51,10 @@ def combate_primeiro_andar():
                 print('Voce entrou em um combate, Enfrente o Guardião de Pedra!')
                 time.sleep(2)
                 acoes.apagar()
-                vitoria = combate_andar.enfrentar_guardiao(jogador_atual.mago_do_tempo, boss_atual.guardiao_de_pedra, vitoria)
+                vitoria, vida_atual = combate_andar.enfrentar_guardiao(jogador_atual.mago_do_tempo, boss_atual.guardiao_de_pedra, None)
                 if vitoria:
                     print('VOCEEE VENCEEEU')
+                    jogador_atual.mago_do_tempo = vida_atual
                 else:
                     print('F PARA VOCE')
                     break
@@ -71,7 +73,7 @@ def combate_primeiro_andar():
 
             elif sala_atual == 'Evento':
                 print('Sala de Evento')
-                eventos.sala_de_evento()
+                jogador = eventos.sala_de_evento(jogador_atual.mago_do_tempo)
 
         else:
             # ---------- OPÇÃO PRA CASO O JOGADOR QUEIRA VOLTAR NESSAS 2 SALAS ----------
